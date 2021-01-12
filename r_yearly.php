@@ -3,37 +3,37 @@
         <div class="col-md-12">
             <?php
             $query = "
-            SELECT amount, SUM(amount) AS totol, DATE_FORMAT(datesave, '%Y') AS datesave
-            FROM tbl_income
-            GROUP BY DATE_FORMAT(datesave, '%Y%')
-            ORDER BY DATE_FORMAT(datesave, '%Y') DESC
+            SELECT amount_paid, SUM(amount_paid) AS totol, DATE_FORMAT(dttran, '%Y') AS dttran
+            FROM csop_rep_import
+            GROUP BY DATE_FORMAT(dttran, '%Y%')
+            ORDER BY DATE_FORMAT(dttran, '%Y') DESC
             ";
             $result = mysqli_query($con, $query);
             $resultchart = mysqli_query($con, $query);
             //for chart
-            $datesave = array();
+            $dttran = array();
             $totol = array();
             while($rs = mysqli_fetch_array($resultchart)){
-            $datesave[] = "\"".$rs['datesave']."\"";
+            $dttran[] = "\"".$rs['dttran']."\"";
             $totol[] = "\"".$rs['totol']."\"";
             }
-            $datesave = implode(",", $datesave);
+            $dttran = implode(",", $dttran);
             $totol = implode(",", $totol);
             
             ?>
-            <h3 align="center">รายงานในแบบกราฟ by devbanban.com</h3>
+            <h3 align="center">รายงานในแบบกราฟ by Juon.com</h3>
             
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
             <hr>
             <p align="center">
-                <!--devbanban.com-->
+                <!--Juon.com-->
                 <canvas id="myChart" width="800px" height="300px"></canvas>
                 <script>
                 var ctx = document.getElementById("myChart").getContext('2d');
                 var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                labels: [<?php echo $datesave;?>
+                labels: [<?php echo $dttran;?>
                 
                 ],
                 datasets: [{
@@ -83,17 +83,17 @@
                     
                     <?php while($row = mysqli_fetch_array($result)) { ?>
                     <tr>
-                        <td><?php echo $row['datesave'];?></td>
+                        <td><?php echo $row['dttran'];?></td>
                         <td align="right"><?php echo number_format($row['totol'],2);?></td>
                     </tr>
                     <?php
-                    @$amount_total += $row['totol'];
+                    @$amount_paid_total += $row['totol'];
                     }
                     ?>
                     <tr class="table-danger">
                         <td align="center">รวม</td>
                         <td align="right"><b>
-                        <?php echo number_format($amount_total,2);?></b></td></td>
+                        <?php echo number_format($amount_paid_total,2);?></b></td></td>
                     </tr>
                 </table>
             </div>

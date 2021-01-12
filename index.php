@@ -6,10 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>ระบบบันทึกรายงาน by devbanban.com</title>
+    <title>ระบบบันทึกรายงาน </title>
+    <script>
+function hidestatus(){
+window.status=''
+return true
+}
+
+if (document.layers)
+document.captureEvents(Event.MOUSEOVER | Event.MOUSEOUT)
+
+document.onmouseover=hidestatus
+document.onmouseout=hidestatus
+</script>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
   </head>
   <body>
-    <?php
+
+    
+
+
+
+
+
+
+  <?php
     require_once('condb.php');
     include ('navbar.php');
     include('intro.php');
@@ -24,6 +46,8 @@
       include('form.php');
     }elseif($p=='adddb'){
       include('form_db.php');
+    }elseif($p=='error_c'){
+      include('r_error_c.php');
     }else{
       include('r_daily.php');
     }

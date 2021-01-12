@@ -14,10 +14,12 @@ document.onmouseout = hidestatus;
         <div class="col-md-12">
             <?php
             $query = "
-            SELECT  filename,amount_paid, SUM(amount_paid) AS totol, DATE_FORMAT(dttran, '%d-%M-%Y') AS dttran
-            FROM csop_rep_import INNER JOIN patient ON csop_rep_import.hn = patient.hn WHERE dttran BETWEEN '2020-10-01' AND '2021-12-31' 
-            GROUP BY DATE_FORMAT(dttran, '%d%')
-            ORDER BY DATE_FORMAT(dttran, '%Y-%m-%d') DESC
+            SELECT SUM(amount_paid),COUNT(stat) as totol,DATE_FORMAT(dttran,'%M-%Y') AS dttran
+            FROM csop_rep_import 
+            WHERE stat = 'C' AND dttran BETWEEN '2020-01-01' and '2021-12-31'
+             GROUP BY DATE_FORMAT(dttran, '%m%')
+            ORDER BY DATE_FORMAT(dttran, '%m%')
+                        
             ";
             $result = mysqli_query($con, $query);
             $resultchart = mysqli_query($con, $query);
@@ -32,23 +34,23 @@ document.onmouseout = hidestatus;
             $totol = implode(",", $totol);
             
             ?>
-            <h3 align="center">รายงานในแบบกราฟ </h3>
+            <h3 align="center">รายงานในแบบกราฟจำนวนการติด C </h3>
             
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
             <hr>
             <p align="center">
-                <!--JuonTable.com-->
+                <!--jUON.com-->
                 <canvas id="myChart" width="800px" height="300px"></canvas>
                 <script>
                 var ctx = document.getElementById("myChart").getContext('2d');
                 var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                 labels: [<?php echo $dttran;?>
                 
                 ],
                 datasets: [{
-                label: 'รายงานรายได้ แยกตามวัน (บาท)',
+                label: 'รายงานรายได้ แยกตามเดือน (บาท)',
                 data: [<?php echo $totol;?>
                 ],
                 backgroundColor: [
@@ -57,7 +59,13 @@ document.onmouseout = hidestatus;
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(17, 192, 152, 0.2)',
+                'rgba(72, 102, 142, 0.2)',
+                'rgba(205, 142, 132, 0.2)',
+                'rgba(73, 152, 122, 0.2)',
+                'rgba(75, 102, 12, 0.2)',
+                'rgba(20, 172, 102, 0.2)',
                 ],
                 borderColor: [
                 'rgba(255,99,132,1)',
@@ -65,7 +73,13 @@ document.onmouseout = hidestatus;
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(17, 192, 152, 1)',
+                'rgba(78, 182, 122, 1)',
+                'rgba(205, 142, 132, 1)',
+                'rgba(10, 152, 152, 1)',
+                'rgba(75, 102, 12, 1)',
+                'rgba(75, 112, 590, 1)',
                 ],
                 borderWidth: 1
                 }]
@@ -82,42 +96,29 @@ document.onmouseout = hidestatus;
                 });
                 </script>
             </p>
-            <div class="col-sm-12">
-                <h3>List</h3>
+            <div class="col-sm-7">
+                <h3>ตารางการติด C</h3>
                 <table  class="table table-striped" border="1" cellpadding="0"  cellspacing="0" align="center">
                     <thead>
                         <tr class="table-primary">
-                            <th width="20%">ว/ด/ป</th>
-                            <th width="50%">รายละเอียด</th>
-                            <th width="10%"><center>รายได้</center></th>
+                            <th width="30%">ด/ป</th>
+                            <th width="70%"><center>จำนวนที่ติด C</center></th>
                         </tr>
                     </thead>
                     
-                    
-                    <?php 
-					
-		   $sql = "
-            SELECT * FROM csop_rep_import
-            ORDER BY filename DESC  Limit 100 
-            ";
-            $result2 = mysqli_query($con, $sql);
-					while($row2 = mysqli_fetch_array($result2)) { 
-					
-					?>
+                    <?php while($row = mysqli_fetch_array($result)) { ?>
                     <tr>
-                        <td><?php echo $row2['dttran'];?></td>
-                        <td><?php echo $row2['filename'];?></td>
-                        <td align="right"><?php echo number_format($row2['amount_paid'],2);?></td>
+                        <td> -<?php echo $row['dttran'];?></td>
+                        <td align="right"><?php echo number_format($row['totol']);?></td>
                     </tr>
                     <?php
-                    @$amount_paid_total += $row2['amount_paid'];
+                    @$amount_total += $row['totol'];
                     }
                     ?>
                     <tr class="table-danger">
-                         <td align="center"></td>
                         <td align="center">รวม</td>
                         <td align="right"><b>
-                        <?php echo number_format($amount_paid_total,2);?></b></td></td>
+                        <?php echo number_format($amount_total,2);?></b></td></td>
                     </tr>
                 </table>
             </div>

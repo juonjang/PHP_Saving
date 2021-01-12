@@ -1,3 +1,5 @@
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -12,16 +14,16 @@
               <a class="nav-link" href="index.php">หน้าหลัก <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="https://www.youtube.com/playlist?list=PLEA4F1w-xYVbvUVUgN3WnJ35qfTH3KktB&disable_polymer=true" target="_blank">เรียน Bootstrap</a>
+              <a class="nav-link" href="" target="_blank">OPD</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="https://www.youtube.com/playlist?list=PLEA4F1w-xYVa0P11woJOAPty8DSLemepR&disable_polymer=true" target="_blank">เรียน PHP</a>
+              <a class="nav-link" href="" target="_blank">IPD</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="https://www.youtube.com/watch?v=PsxN5lSEXfo&t=1s&index=2&list=PLEA4F1w-xYVZX-h5l0xYldQCvZJR4kvft" target="_blank">ตะกร้าสินค้า PHP</a>
+              <a class="nav-link" href="" target="_blank">ทดสอบ</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="http://devbanban.com/" target="_blank">devbanban.com</a>
+              <a class="nav-link" href="" target="_blank">อื่นๆ</a>
             </li>
           </ul>
         </div>
